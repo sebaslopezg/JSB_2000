@@ -122,6 +122,16 @@ function formatear(res){
   return res.replace(/\/n/gi, "<br>");
 }
 
+//RANGO ARREGLAR
+
+const rango = document.getElementById('rango');
+
+rango.addEventListener("input", () => {
+    console.log(rango.value);
+});
+
+//FIN RANGO
+
 
 // FUNCION DE AUTOCOMPLETAR
 
