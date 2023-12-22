@@ -3,14 +3,30 @@ const mostrar = document.getElementById('mostrar');
 const buscar = document.getElementById('buscar');
 const cuadro_busqueda = document.getElementById('cuadro_busqueda');
 const sugerencias = document.querySelector("#sugerencias");
+let saltos = 0;
+let saltosCap = 0;
 
+buscar.addEventListener("click", () =>{
+  busqueda();
+  saltos = 0;
+});
+window.addEventListener("keydown", e => {
+  
+  if(e.key == 'ArrowRight'){
+    busqueda("n");
+  }
 
-buscar.addEventListener("click", busqueda);
+  if(e.key == 'ArrowLeft'){
+    busqueda("p");
+  }
+
+});
 
 cuadro_busqueda.addEventListener("keydown", (e) =>{
 
   if(e.key == 'Enter'){
     busqueda();
+    saltos = 0;
   }
 
 });
@@ -20,7 +36,7 @@ autocomplete(cuadro_busqueda, libros);
 
 
 // funcion de buscar:
-function busqueda(){
+function busqueda(np = undefined){
 
   let texto;
   let letras = cuadro_busqueda.value;
@@ -50,14 +66,20 @@ function busqueda(){
   }
 
   try {
-    texto = buscarCapver(libroSelecionado, capver, limver);
+    if(np == "n"){
+      texto = buscarCapver(libroSelecionado, capver, limver, "n");
+    }else if(np == "p"){
+      texto = buscarCapver(libroSelecionado, capver, limver, "p");
+    }else{
+      texto = buscarCapver(libroSelecionado, capver, limver);
+    }
 
     if(texto == undefined){
       const frase = arrData[0] + " " + arrData[1] + " " + arrData[2] + " " + arrData[3];
       if(frase == "Cantar de los Cantares"){
         libroSelecionado = buscarLibro(frase);
         capver = arrData[4];
-        limver = arrData[5];
+        limver = arrData[6];
         try {
           texto = buscarCapver(libroSelecionado, capver, limver); 
         }catch (e){
@@ -67,13 +89,13 @@ function busqueda(){
     }
 
     mostrar.innerHTML = texto;
-  }catch{
-    console.log("catch"); //poner aqui condicional
+  }catch (e){
+    console.log("catch " + e); //poner aqui condicional
   }
 
 }
 
-function buscarCapver(array, capver = undefined, limver = undefined){
+function buscarCapver(array, capver = undefined, limver = undefined, np = undefined){
   let respuesta = "";
   if(capver == undefined && limver == undefined){
 
@@ -99,15 +121,26 @@ function buscarCapver(array, capver = undefined, limver = undefined){
 
       capitulo = parseInt(arrCapver)-1;
 
-      array[capitulo].forEach(item =>{
-        respuesta += `<p>${item}</p>`;
+      array[capitulo].forEach((item, index) =>{
+        respuesta += `<p><span class="inver">${index+1}</span>${item}</p>`;
       });
 
     }else if(arrCapver.length == 2){
-
+      
       capitulo = parseInt(arrCapver[0])-1;
       versiculo = parseInt(arrCapver[1])-1;
-      respuesta = array[capitulo][versiculo];
+
+      if(np == "n" && array[capitulo].length > saltos+versiculo+1){
+        saltos++;
+        console.log(array[capitulo].length);
+        console.log(saltos+versiculo+1);
+      }else if(np == "p" && versiculo+saltos > 0){
+        saltos--;
+        console.log(saltos);
+      }else{
+
+      }
+      respuesta = `<span class="inver">${versiculo+1+saltos}</span>`+array[capitulo][versiculo+saltos];
     }
     respuesta = formatear(respuesta);
     return respuesta;

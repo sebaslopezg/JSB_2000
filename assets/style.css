@@ -17,9 +17,11 @@ body{
 }
 
 #controlls{
+    background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.6) 100%);
     position: fixed;
     text-align: center;
     width: 100%;
+    padding: 16px;
 }
 
 .rule{
@@ -34,13 +36,29 @@ body{
     color: #fff;
     text-shadow: 2px 2px 8px #000;
     padding: 16px;
+    animation: fadeIn 1s;
 }
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+#mostrar .inver{
+    vertical-align:super;
+    margin: 8px;
+    color: var(--black-grey-color);
+    text-shadow: none;
+  }
 
 input[type=text]:focus{
     outline: none;
+    color: #fff;
+    text-shadow: 2px 2px 8px #000;
+    border-color: #fff;
 }
 
-input[type=text] {
+input[type=text]{
     border: none;
     background: transparent;
     border-bottom: 4px solid var(--brown-color);
@@ -48,21 +66,68 @@ input[type=text] {
     color: var(--brown-dark);
     font-size: 30px;
     text-align: center;
-  }
+    transition: .2s;
+}
 
-  input[type=button]{
+input[type=text]:hover{
+    border-color: #fff;
+}
+
+input[type=text]:active{
+    border-color: #fff;
+}
+
+input[type=button]{
     border: solid 2px var(--brown-color);
     background-color: var(--brown-color);
     color: #fff;
     border-radius: 4px;
     font-size: 30px;
     padding: 8px;
-  }
+    transition: .2s;
+}
 
-  input[type=button]:hover{
+input[type=button]:hover{
     background-color: var(--brown-dark);
     cursor: pointer;
     border-color: #000;
-  }
+}
 
-  input[type=button]:active{background-color: #000;}
+input[type=button]:active{
+    background-color: #000;
+}
+
+
+#rango{
+    -webkit-appearance: none;
+    height: 15px;
+    border-radius: 8px;
+    background: rgba(66, 40, 27, .5);
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+#rango:hover {
+    opacity: 1;
+}
+
+
+#rango::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: var(--black-grey-color);
+    cursor: pointer;
+}
+  
+#rango::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: var(--brown-color);
+    cursor: pointer;
+}
