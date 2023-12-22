@@ -1,4 +1,15 @@
-
+/*
+-------------------------------------------------
+Buscador: Biblia version Reina Valera 2000
+Version: 0.0.3
+Autor: Sebastián López
+URI: https://github.com/sebaslopezg/JSB_2000
+Iglesia Central de Cartago, Valle del Cauca
+-------------------------------------------------
+Datos procesados por: José Vladimir
+URI: https://github.com/josevladimir/bible-json
+-------------------------------------------------
+*/
 const mostrar = document.getElementById('mostrar');
 const buscar = document.getElementById('buscar');
 const cuadro_busqueda = document.getElementById('cuadro_busqueda');
@@ -19,7 +30,6 @@ window.addEventListener("keydown", e => {
   if(e.key == 'ArrowLeft'){
     busqueda("p");
   }
-
 });
 
 cuadro_busqueda.addEventListener("keydown", (e) =>{
@@ -31,9 +41,7 @@ cuadro_busqueda.addEventListener("keydown", (e) =>{
 
 });
 
-
 autocomplete(cuadro_busqueda, libros);
-
 
 // funcion de buscar:
 function busqueda(np = undefined){
@@ -83,16 +91,15 @@ function busqueda(np = undefined){
         try {
           texto = buscarCapver(libroSelecionado, capver, limver); 
         }catch (e){
-          console.log("Error en segundo trycatch: " + e);
+          //console.log("Error en segundo trycatch: " + e);
         }        
       }
     }
 
     mostrar.innerHTML = texto;
   }catch (e){
-    console.log("catch " + e); //poner aqui condicional
+    //console.log("catch " + e);
   }
-
 }
 
 function buscarCapver(array, capver = undefined, limver = undefined, np = undefined){
@@ -100,7 +107,6 @@ function buscarCapver(array, capver = undefined, limver = undefined, np = undefi
   if(capver == undefined && limver == undefined){
 
     //buscar todo el libro
-    
     array.forEach((element) => {
       element.forEach( element => {
         respuesta +=  `<p>${element}</p>`;
@@ -132,11 +138,8 @@ function buscarCapver(array, capver = undefined, limver = undefined, np = undefi
 
       if(np == "n" && array[capitulo].length > saltos+versiculo+1){
         saltos++;
-        console.log(array[capitulo].length);
-        console.log(saltos+versiculo+1);
       }else if(np == "p" && versiculo+saltos > 0){
         saltos--;
-        console.log(saltos);
       }else{
 
       }

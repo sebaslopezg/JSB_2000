@@ -42,14 +42,14 @@ body{
 @keyframes fadeIn {
     0% { opacity: 0; }
     100% { opacity: 1; }
-  }
+}
 
 #mostrar .inver{
     vertical-align:super;
     margin: 8px;
     color: var(--black-grey-color);
     text-shadow: none;
-  }
+}
 
 input[type=text]:focus{
     outline: none;
@@ -97,7 +97,6 @@ input[type=button]:active{
     background-color: #000;
 }
 
-
 #rango{
     -webkit-appearance: none;
     height: 15px;
@@ -112,7 +111,6 @@ input[type=button]:active{
 #rango:hover {
     opacity: 1;
 }
-
 
 #rango::-webkit-slider-thumb {
     -webkit-appearance: none;
