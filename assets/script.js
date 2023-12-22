@@ -125,9 +125,11 @@ function formatear(res){
 //RANGO ARREGLAR
 
 const rango = document.getElementById('rango');
+mostrar.style.fontSize = rango.value+"px";
 
 rango.addEventListener("input", () => {
-    console.log(rango.value);
+  mostrar.style.fontSize = rango.value+"px";
+  console.log(rango.value);
 });
 
 //FIN RANGO
