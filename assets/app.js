@@ -14,14 +14,23 @@ const mostrar = document.getElementById('mostrar');
 const buscar = document.getElementById('buscar');
 const cuadro_busqueda = document.getElementById('cuadro_busqueda');
 const sugerencias = document.querySelector("#sugerencias");
+const rango = document.getElementById('rango');
 let saltos = 0;
 let saltosCap = 0;
+
+if(config.show_search_button == false){
+  buscar.style.display = "none";
+}
+
+if(config.show_size_bar == false){
+  rango.style.display = "none";
+}
 
 buscar.addEventListener("click", () =>{
   busqueda();
   saltos = 0;
 });
-window.addEventListener("keydown", e => {
+window.addEventListener("keydown", e =>{
   
   if(e.key == 'ArrowRight'){
     busqueda("n");
@@ -160,7 +169,6 @@ function formatear(res){
 
 //RANGO ARREGLAR
 
-const rango = document.getElementById('rango');
 mostrar.style.fontSize = rango.value+"px";
 
 rango.addEventListener("input", () => {
