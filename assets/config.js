@@ -1,4 +1,4 @@
 config = {
-    show_search_button: false,
-    show_size_bar: false
+    show_search_button: true,
+    show_size_bar: true
 }

@@ -17,6 +17,7 @@ const sugerencias = document.querySelector("#sugerencias");
 const rango = document.getElementById('rango');
 let saltos = 0;
 let saltosCap = 0;
+let inputTarget = false;
 
 if(config.show_search_button == false){
   buscar.style.display = "none";
@@ -30,8 +31,17 @@ buscar.addEventListener("click", () =>{
   busqueda();
   saltos = 0;
 });
+
+window.addEventListener("click", e =>{
+  if(e.target.tagName != "INPUT"){
+    inputTarget = false;
+
+  }else{
+    inputTarget = true;
+  }
+});
+
 window.addEventListener("keydown", e =>{
-  
   if(e.key == 'ArrowRight'){
     busqueda("n");
   }
@@ -39,6 +49,16 @@ window.addEventListener("keydown", e =>{
   if(e.key == 'ArrowLeft'){
     busqueda("p");
   }
+
+  if(e.key == 'ArrowUp'){
+    
+    inputTarget ? "" : moverRango("up");
+  }
+
+  if(e.key == 'ArrowDown'){
+    inputTarget ? "" : moverRango("down");
+  }
+
 });
 
 cuadro_busqueda.addEventListener("keydown", (e) =>{
@@ -167,14 +187,25 @@ function formatear(res){
   return res.replace(/\/n/gi, "<br>");
 }
 
-//RANGO ARREGLAR
+//RANGO ARREGLAR <<<<<<<<<<<<<<<<<<----------------------------------------------------------------
 
 mostrar.style.fontSize = rango.value+"px";
 
 rango.addEventListener("input", () => {
   mostrar.style.fontSize = rango.value+"px";
-  console.log(rango.value);
 });
+
+function moverRango(direccion){
+  if(direccion == "up"){
+    rango.setAttribute("value", rango.value++);
+    mostrar.style.fontSize = rango.value+"px";
+  }
+
+  if(direccion == "down"){
+    rango.setAttribute("value", rango.value--);
+    mostrar.style.fontSize = rango.value+"px";
+  }
+}
 
 //FIN RANGO
 
