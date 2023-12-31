@@ -129,3 +129,14 @@ input[type=button]:active{
     background: var(--brown-color);
     cursor: pointer;
 }
+
+/* Autocomplete style */
+
+.autocomplete-items div{
+    margin: 0 auto;
+    width: 30%;
+}
+
+.autocomplete-items .autocomplete-active{
+    background-color: red;
+  }

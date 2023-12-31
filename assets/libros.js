@@ -1,6 +1,6 @@
 const libros = [
     'Genesis', 
-    'exodo', 
+    'Exodo', 
     'Levitico', 
     'Numeros', 
     'Deuteronomio', 

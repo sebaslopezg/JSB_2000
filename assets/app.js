@@ -1,7 +1,7 @@
 /*
 -------------------------------------------------
 Buscador: Biblia version Reina Valera 2000
-Version: 0.0.3
+Version: 0.1.1
 Autor: Sebastián López
 URI: https://github.com/sebaslopezg/JSB_2000
 Iglesia Central de Cartago, Valle del Cauca
@@ -18,6 +18,7 @@ const rango = document.getElementById('rango');
 let saltos = 0;
 let saltosCap = 0;
 let inputTarget = false;
+let clicEnBusqueda = false;
 
 if(config.show_search_button == false){
   buscar.style.display = "none";
@@ -39,15 +40,24 @@ window.addEventListener("click", e =>{
   }else{
     inputTarget = true;
   }
+
+  if(e.target == cuadro_busqueda){
+    clicEnBusqueda = true;
+  }else if(e.target != cuadro_busqueda){
+    clicEnBusqueda = false;
+  }
+
+  console.log("Estado de clic en busqueda: " + clicEnBusqueda);
+  
 });
 
 window.addEventListener("keydown", e =>{
   if(e.key == 'ArrowRight'){
-    busqueda("n");
+    clicEnBusqueda ? "" : busqueda("n");
   }
 
   if(e.key == 'ArrowLeft'){
-    busqueda("p");
+    clicEnBusqueda ? "" : busqueda("p");
   }
 
   if(e.key == 'ArrowUp'){
@@ -187,7 +197,7 @@ function formatear(res){
   return res.replace(/\/n/gi, "<br>");
 }
 
-//RANGO ARREGLAR <<<<<<<<<<<<<<<<<<----------------------------------------------------------------
+//RANGO
 
 mostrar.style.fontSize = rango.value+"px";
 
@@ -221,7 +231,7 @@ function autocomplete(inp, arr) {
       var a, b, i, val = this.value;
       /*close any already open lists of autocompleted values*/
       closeAllLists();
-      if (!val) { return false;}
+      if (!val) {return false;}
       currentFocus = -1;
       /*create a DIV element that will contain the items (values):*/
       a = document.createElement("DIV");
