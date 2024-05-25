@@ -120,19 +120,29 @@ function busqueda(siguienteAnterior = undefined){
     let placeHolder
 
     if (siguienteAnterior == "siguiente" || siguienteAnterior == "anterior") {
-      placeHolder = buscarCapver(libroSelecionado, capver, limver, "siguiente");
+
+      //texto = placeHolder
+      if(siguienteAnterior == "siguiente"){
+        versiculo++
+      }else if(siguienteAnterior == "anterior"){
+        versiculo--
+      }
+
+      placeHolder = buscarCapver(libroSelecionado, arrCapver[0] + ":" + versiculo);
+      console.log(placeHolder)
+
       if (placeHolder != undefined) {
-        console.log("no es indefinido")
-        texto = placeHolder
-        if(siguienteAnterior == "siguiente"){
-          versiculo = versiculo+1
-        }else if(siguienteAnterior == "anterior"){
-          versiculo = versiculo-1
-        }
         citaActualizada = arrData[0] + " " + arrCapver[0] + ":" + versiculo
         cuadro_busqueda.value = citaActualizada
-        saltos = 0
-      }      
+        texto = placeHolder        
+      }else{
+        console.log("da undefined")
+        texto = buscarCapver(libroSelecionado, capver)
+      }
+
+
+      //saltos = 0
+         
     }else{
       texto = buscarCapver(libroSelecionado, capver, limver);
     }
@@ -191,13 +201,13 @@ function buscarCapver(array, capver = undefined, limver = undefined, siguienteAn
       capitulo = parseInt(arrCapver[0])-1;
       versiculo = parseInt(arrCapver[1])-1;
 
-      if(siguienteAnterior == "siguiente" && array[capitulo].length > saltos+versiculo+1){
+/*       if(siguienteAnterior == "siguiente" && array[capitulo].length > saltos+versiculo+1){
         saltos++;
       }else if(siguienteAnterior == "anterior" && versiculo+saltos > 0){
         saltos--;
       }else{
 
-      }
+      } */
       respuesta = `<span class="inver">${versiculo+1+saltos}</span>`+array[capitulo][versiculo+saltos];
     }
 

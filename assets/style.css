@@ -47,8 +47,9 @@ body{
 #mostrar .inver{
     vertical-align:super;
     margin: 8px;
-    color: var(--black-grey-color);
+    color: #d2d2d2;
     text-shadow: none;
+    text-shadow: 2px 2px 8px #000;
 }
 
 input[type=text]:focus{
@@ -63,7 +64,8 @@ input[type=text]{
     background: transparent;
     border-bottom: 4px solid var(--brown-color);
     font-weight: bold;
-    color: var(--brown-dark);
+    color: #fff;
+    text-shadow: 2px 2px 8px #000;
     font-size: 30px;
     text-align: center;
     transition: .2s;
