@@ -132,11 +132,19 @@ input[type=button]:active{
 
 /* Autocomplete style */
 
+.autocomplete-items div:first-child{border-radius: 8px 8px 0 0;}
+
+.autocomplete-items div:last-child{border-radius: 0 0 8px 8px;}
+
 .autocomplete-items div{
+    color: #fff;
     margin: 0 auto;
     width: 30%;
+    padding: 4px;
+    background-color: rgba(0,0,0,.3);
 }
 
 .autocomplete-items .autocomplete-active{
-    background-color: red;
+    background-color: rgba(0,0,0,.5);
+    
   }
