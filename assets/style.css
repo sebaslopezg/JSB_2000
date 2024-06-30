@@ -45,11 +45,18 @@ body{
 }
 
 #mostrar .inver{
+    display: inline-flex;
     vertical-align:super;
     margin: 8px;
-    color: #d2d2d2;
+    background-color: var(--brown-dark);
+    border-radius: 500px;
+    width: 78px;
+    height: 78px;
+    padding: 8px;
+    justify-content: center;
+    align-content: center;
+    color: #FFF;
     text-shadow: none;
-    text-shadow: 2px 2px 8px #000;
 }
 
 input[type=text]:focus{

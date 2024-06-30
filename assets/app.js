@@ -99,6 +99,8 @@ function busqueda(siguienteAnterior = undefined){
     }
   });
 
+  console.log(arrData)
+
   let primerElemento = parseInt(arrData[0]);
 
   if(Number.isInteger(primerElemento)){
@@ -139,9 +141,6 @@ function busqueda(siguienteAnterior = undefined){
         console.log("da undefined")
         texto = buscarCapver(libroSelecionado, capver)
       }
-
-
-      //saltos = 0
          
     }else{
       texto = buscarCapver(libroSelecionado, capver, limver);
@@ -234,7 +233,7 @@ function formatear(res){
 mostrar.style.fontSize = rango.value+"px";
 
 rango.addEventListener("input", () => {
-  mostrar.style.fontSize = rango.value+"px";
+  mostrar.style.fontSize = rango.value+"px"
 });
 
 function moverRango(direccion){
@@ -246,6 +245,7 @@ function moverRango(direccion){
   if(direccion == "down"){
     rango.setAttribute("value", rango.value--);
     mostrar.style.fontSize = rango.value+"px";
+    
   }
 }
 
