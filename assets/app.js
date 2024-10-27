@@ -10,6 +10,7 @@ Datos procesados por: José Vladimir
 URI: https://github.com/josevladimir/bible-json
 -------------------------------------------------
 */
+
 const mostrar = document.getElementById('mostrar');
 const buscar = document.getElementById('buscar');
 const cuadro_busqueda = document.getElementById('cuadro_busqueda');
@@ -83,12 +84,15 @@ cuadro_busqueda.addEventListener("keydown", (e) =>{
 
 autocomplete(cuadro_busqueda, libros);
 
-// funcion de buscar:
+// ------------------ funcion de buscar ----------------------- //
+//Editar funcion buscar, quitar validaciones para usar: separarCita()
 function busqueda(siguienteAnterior = undefined){
 
   let texto;
   let letras = cuadro_busqueda.value;
   let arrBusqueda = letras.split(' ');
+  let nuevoArrBusqueda = separarCita(letras)
+  console.log(nuevoArrBusqueda)
   let arrData = [];
   let capver;
   let libroSelecionado;
@@ -98,8 +102,6 @@ function busqueda(siguienteAnterior = undefined){
       arrData.push(item);
     }
   });
-
-  console.log(arrData)
 
   let primerElemento = parseInt(arrData[0]);
 
@@ -131,14 +133,14 @@ function busqueda(siguienteAnterior = undefined){
       }
 
       placeHolder = buscarCapver(libroSelecionado, arrCapver[0] + ":" + versiculo);
-      console.log(placeHolder)
+      //console.log(placeHolder)
 
       if (placeHolder != undefined) {
         citaActualizada = arrData[0] + " " + arrCapver[0] + ":" + versiculo
         cuadro_busqueda.value = citaActualizada
         texto = placeHolder        
       }else{
-        console.log("da undefined")
+        //console.log("da undefined")
         texto = buscarCapver(libroSelecionado, capver)
       }
          
@@ -179,7 +181,7 @@ function buscarCapver(array, capver = undefined, limver = undefined, siguienteAn
     respuesta = formatear(respuesta);
     return respuesta;
   }else if(limver == undefined){
-    //Buscar todo el capver
+    //Buscar todo el capitulo versiculo (capver)
 
     const arrCapver = capver.split(':');
     
@@ -225,8 +227,55 @@ function buscarCapver(array, capver = undefined, limver = undefined, siguienteAn
 }
 
 function formatear(res){
-  return res.replace(/\/n/gi, "<br>");
+  return res.replace(/\/n/gi, "<br>")
 }
+
+// ----------- Funcion para separar las citas ---------- ///
+
+function separarCita(texto){
+  
+  let arrRespuesta = []
+  let arrCrumbs = []
+  let arrTexto = texto.split(' ') 
+  let primerElemento = arrTexto[0]
+
+  primerElemento = parseInt(primerElemento)
+
+  arrTexto.forEach((element, index) =>{
+    crumb = element.split(':')
+    crumb.forEach((el)=>arrCrumbs.push(el))
+  })
+
+  arrCrumbs.forEach((el, index) =>{
+
+     if (esNumero(el) && index == 0) {
+      arrRespuesta[0] = el
+     }
+
+     if (!esNumero(el)) {
+      arrRespuesta[0] === undefined ? arrRespuesta[0] = el : arrRespuesta[0] += ` ${el}` 
+     }
+
+     if (esNumero(el)) {
+      arrRespuesta.push(el)
+     }
+  })
+
+  return arrRespuesta
+}
+
+//funcion para revisar si es numero
+function esNumero(value){
+  let res
+  if(!Number.isNaN(value - 1)){
+    res = true
+  }else{
+    res = false
+  }
+
+  return res
+}
+
 
 //RANGO
 
