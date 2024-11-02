@@ -1,7 +1,7 @@
 /*
 -------------------------------------------------
 Buscador: Biblia version Reina Valera 2000
-Version: 0.1.1
+Version: 0.1.2
 Autor: Sebastián López
 URI: https://github.com/sebaslopezg/JSB_2000
 Iglesia Central de Cartago, Valle del Cauca
@@ -91,8 +91,8 @@ function busqueda(siguienteAnterior = undefined){
   let texto;
   let letras = cuadro_busqueda.value;
   let arrBusqueda = letras.split(' ');
-  let nuevoArrBusqueda = separarCita(letras)
-  console.log(nuevoArrBusqueda)
+  let arrCita = separarCita(letras)
+  console.log(arrCita)
   let arrData = [];
   let capver;
   let libroSelecionado;
@@ -133,19 +133,18 @@ function busqueda(siguienteAnterior = undefined){
       }
 
       placeHolder = buscarCapver(libroSelecionado, arrCapver[0] + ":" + versiculo);
-      //console.log(placeHolder)
 
       if (placeHolder != undefined) {
         citaActualizada = arrData[0] + " " + arrCapver[0] + ":" + versiculo
         cuadro_busqueda.value = citaActualizada
         texto = placeHolder        
       }else{
-        //console.log("da undefined")
         texto = buscarCapver(libroSelecionado, capver)
       }
          
     }else{
-      texto = buscarCapver(libroSelecionado, capver, limver);
+      //texto = buscarCapver(libroSelecionado, capver, limver);
+      texto = buscarCapver(arrCita[0], arrCita[1]+":"+arrCita[2]);
     }
 
     if(texto == undefined){
@@ -156,16 +155,12 @@ function busqueda(siguienteAnterior = undefined){
         limver = arrData[6];
         try {
           texto = buscarCapver(libroSelecionado, capver, limver); 
-        }catch (e){
-          //console.log("Error en segundo trycatch: " + e);
-        }        
+        }catch (e){}        
       }
     }
 
     mostrar.innerHTML = texto;
-  }catch (e){
-    //console.log("catch " + e);
-  }
+  }catch (e){}
 }
 
 function buscarCapver(array, capver = undefined, limver = undefined, siguienteAnterior = undefined){
@@ -201,14 +196,6 @@ function buscarCapver(array, capver = undefined, limver = undefined, siguienteAn
       
       capitulo = parseInt(arrCapver[0])-1;
       versiculo = parseInt(arrCapver[1])-1;
-
-/*       if(siguienteAnterior == "siguiente" && array[capitulo].length > saltos+versiculo+1){
-        saltos++;
-      }else if(siguienteAnterior == "anterior" && versiculo+saltos > 0){
-        saltos--;
-      }else{
-
-      } */
       respuesta = `<span class="inver">${versiculo+1+saltos}</span>`+array[capitulo][versiculo+saltos];
     }
 
@@ -236,28 +223,31 @@ function separarCita(texto){
   
   let arrRespuesta = []
   let arrCrumbs = []
+  let arrCrumbsFormated = []
   let arrTexto = texto.split(' ') 
-  let primerElemento = arrTexto[0]
 
-  primerElemento = parseInt(primerElemento)
-
-  arrTexto.forEach((element, index) =>{
+  arrTexto.forEach((element)=>{
     crumb = element.split(':')
     crumb.forEach((el)=>arrCrumbs.push(el))
   })
 
-  arrCrumbs.forEach((el, index) =>{
+  arrCrumbs.forEach((item) => {
+    if(item != ""){
+      arrCrumbsFormated.push(item);
+    }
+  });
 
+  arrCrumbsFormated.forEach((el, index) =>{
      if (esNumero(el) && index == 0) {
       arrRespuesta[0] = el
+     }else{
+      if (esNumero(el)) {
+        arrRespuesta.push(el)
+       }
      }
 
      if (!esNumero(el)) {
       arrRespuesta[0] === undefined ? arrRespuesta[0] = el : arrRespuesta[0] += ` ${el}` 
-     }
-
-     if (esNumero(el)) {
-      arrRespuesta.push(el)
      }
   })
 
