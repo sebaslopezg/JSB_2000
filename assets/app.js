@@ -29,12 +29,12 @@ if(config.show_size_bar == false){
   rango.style.display = "none";
 }
 
-buscar.addEventListener("click", () =>{
+buscar.addEventListener("click", ()=>{
   busqueda();
   saltos = 0;
 });
 
-window.addEventListener("click", e =>{
+window.addEventListener("click", (e)=>{
   if(e.target.tagName != "INPUT"){
     inputTarget = false;
 
@@ -52,8 +52,8 @@ window.addEventListener("click", e =>{
   
 });
 
-window.addEventListener("keydown", e =>{
-  //console.log('evento: ',e)
+window.addEventListener("keydown", (e)=>{
+
   if(e.key == 'ArrowRight'){
     clicEnBusqueda ? "" : busqueda("siguiente"); //cambiar - Detectar si el campo está activo
   }
@@ -86,40 +86,17 @@ autocomplete(cuadro_busqueda, libros);
 
 // ------------------ funcion de buscar ----------------------- //
 //Editar funcion buscar, quitar validaciones para usar: separarCita()
+//QUEDA PENDIENTE DEBUGEAR ERROR SE VA AL CATCH
 function busqueda(siguienteAnterior = undefined){
 
   let texto;
   let letras = cuadro_busqueda.value;
-  let arrBusqueda = letras.split(' ');
   let arrCita = separarCita(letras)
-  console.log(arrCita)
-  let arrData = [];
-  let capver;
-  let libroSelecionado;
-
-  arrBusqueda.forEach((item) => {
-    if(item != ""){
-      arrData.push(item);
-    }
-  });
-
-  let primerElemento = parseInt(arrData[0]);
-
-  if(Number.isInteger(primerElemento)){
-    const libro = arrData[0]+" "+arrData[1];
-    libroSelecionado = buscarLibro(libro);
-    capver = arrData[2];
-    limver = arrData[4];
-  }else{
-    const libro = arrData[0];
-    libroSelecionado = buscarLibro(libro);
-    capver = arrData[1];
-    limver = arrData[3];
-  }
-
+  let libroSelecionado = buscarLibro(arrCita[0])
+  let capitulo = parseInt(arrCita[1])
+  let versiculo = parseInt(arrCita[2])
+  
   try {
-    let arrCapver = capver.split(':');
-    let versiculo = parseInt(arrCapver[1])
     let citaActualizada
     let placeHolder
 
@@ -132,42 +109,31 @@ function busqueda(siguienteAnterior = undefined){
         versiculo--
       }
 
-      placeHolder = buscarCapver(libroSelecionado, arrCapver[0] + ":" + versiculo);
+      placeHolder = buscarCapver(libroSelecionado, capitulo, versiculo)
 
       if (placeHolder != undefined) {
-        citaActualizada = arrData[0] + " " + arrCapver[0] + ":" + versiculo
+        citaActualizada = arrCita[0] + " " + arrCita[1] + ":" + versiculo
         cuadro_busqueda.value = citaActualizada
         texto = placeHolder        
       }else{
-        texto = buscarCapver(libroSelecionado, capver)
+        texto = buscarCapver(libroSelecionado, capitulo, arrCita[2])
       }
          
     }else{
       //texto = buscarCapver(libroSelecionado, capver, limver);
-      texto = buscarCapver(arrCita[0], arrCita[1]+":"+arrCita[2]);
-    }
-
-    if(texto == undefined){
-      const frase = arrData[0] + " " + arrData[1] + " " + arrData[2] + " " + arrData[3];
-      if(frase == "Cantar de los Cantares"){
-        libroSelecionado = buscarLibro(frase);
-        capver = arrData[4];
-        limver = arrData[6];
-        try {
-          texto = buscarCapver(libroSelecionado, capver, limver); 
-        }catch (e){}        
-      }
+      texto = buscarCapver(libroSelecionado, capitulo, versiculo);
     }
 
     mostrar.innerHTML = texto;
   }catch (e){}
 }
 
-function buscarCapver(array, capver = undefined, limver = undefined, siguienteAnterior = undefined){
+function buscarCapver(array, capitulo = undefined, versiculo = undefined, limver = undefined, siguienteAnterior = undefined){
   let respuesta = "";
-  if(capver == undefined && limver == undefined){
 
-    //buscar todo el libro
+  //buscar todo el libro
+  if(capitulo == undefined && versiculo == undefined){
+    console.log('todo el libro')
     array.forEach((element) => {
       element.forEach( element => {
         respuesta +=  `<p>${element}</p>`;
@@ -177,29 +143,20 @@ function buscarCapver(array, capver = undefined, limver = undefined, siguienteAn
     return respuesta;
   }else if(limver == undefined){
     //Buscar todo el capitulo versiculo (capver)
+    if (versiculo == undefined) {
 
-    const arrCapver = capver.split(':');
-    
-    let capitulo;
-    let versiculo = arrCapver[1];
-   
-
-    if(arrCapver.length == 1){
-
-      capitulo = parseInt(arrCapver)-1;
+      capitulo = parseInt(capitulo)-1;
 
       array[capitulo].forEach((item, index) =>{
         respuesta += `<p><span class="inver">${index+1}</span>${item}</p>`;
       });
-
-    }else if(arrCapver.length == 2){
-      
-      capitulo = parseInt(arrCapver[0])-1;
-      versiculo = parseInt(arrCapver[1])-1;
-      respuesta = `<span class="inver">${versiculo+1+saltos}</span>`+array[capitulo][versiculo+saltos];
+    }else{
+      capitulo = parseInt(capitulo)-1;
+      versiculo = parseInt(versiculo)-1;
+      respuesta = `<span class="inver">${versiculo+1}</span>`+array[capitulo][versiculo];
     }
 
-    if (array[capitulo][versiculo+saltos] == undefined) {
+    if (array[capitulo][versiculo] == undefined) {
       respuesta = undefined
     }else{
       respuesta = formatear(respuesta);
