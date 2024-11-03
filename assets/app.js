@@ -86,7 +86,6 @@ autocomplete(cuadro_busqueda, libros);
 
 // ------------------ funcion de buscar ----------------------- //
 //Editar funcion buscar, quitar validaciones para usar: separarCita()
-//QUEDA PENDIENTE DEBUGEAR ERROR SE VA AL CATCH
 function busqueda(siguienteAnterior = undefined){
 
   let texto;
