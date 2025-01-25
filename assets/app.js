@@ -53,12 +53,13 @@ window.addEventListener("click", (e)=>{
 });
 
 window.addEventListener("keydown", (e)=>{
+  console.log(e.key)
 
-  if(e.key == 'ArrowRight'){
+  if(e.key == 'ArrowRight' || e.key == 'PageDown'){
     clicEnBusqueda ? "" : busqueda("siguiente"); //cambiar - Detectar si el campo está activo
   }
 
-  if(e.key == 'ArrowLeft'){
+  if(e.key == 'ArrowLeft' || e.key == 'PageUp'){
     clicEnBusqueda ? "" : busqueda("anterior"); //cambiar - Detectar si el campo está activo
   }
 
